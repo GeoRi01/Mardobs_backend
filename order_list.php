@@ -16,14 +16,15 @@ if ($conn->connect_error) {
 
 $orderData = json_decode(file_get_contents("php://input"), true);
 $orderID = uniqid();
-$orderDate = date("Y-m-d H:i:s");
-$products = $orderData['products'];
-$totalAmount = $orderData['totalAmount'];
 $tableName = $orderData['tableName'];
-$orderStatus = $orderData['orderStatus'];
+$products = $orderData['products'];
 $orderItemsJson = json_encode($products);
+$totalAmount = $orderData['totalAmount'];
+$orderDate = date("Y-m-d H:i:s");
+$orderStatus = $orderData['orderStatus'];
 
-$sql = "INSERT INTO orders (order_id, order_date, total_amount, table_name, order_status, order_items) VALUES ( '$orderID', '$orderDate', '$totalAmount', '$tableName', '$orderStatus', '$orderItemsJson')";
+
+$sql = "INSERT INTO orders (order_id, table_name, order_items, total_amount, order_date, order_status) VALUES ( '$orderID', '$tableName', '$orderItemsJson','$totalAmount', '$orderDate', '$orderStatus')";
 if ($conn->query($sql) === TRUE) {
     echo json_encode(["status" => "success", "message" => "Order placed successfully"]);
 } else {
