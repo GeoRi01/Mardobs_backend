@@ -1,20 +1,18 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
+$servername = "34.143.244.112";
+$username = "dobal";
+$password = "dobal2024";
 $dbname = "mardobs";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM table_list";
+$sql = "SELECT * FROM app_tables";
 $result = $conn->query($sql);
 
 $tableList = array();

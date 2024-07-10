@@ -1,9 +1,9 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
+$servername = "34.143.244.112";
+$username = "dobal";
+$password = "dobal2024";
 $dbname = "mardobs";
 
 // Create connection
@@ -15,16 +15,17 @@ if ($conn->connect_error) {
 }
 
 $orderData = json_decode(file_get_contents("php://input"), true);
-$orderID = uniqid();
-$tableName = $orderData['tableName'];
-$products = $orderData['products'];
-$orderItemsJson = json_encode($products);
-$totalAmount = $orderData['totalAmount'];
-$orderDate = date("Y-m-d H:i:s");
-$orderStatus = $orderData['orderStatus'];
+
+$orders_code = uniqid();
+$orders_table = $orderData['tables_name'];
+$items = $orderData['items'];
+$orders_items = json_encode($items);
+$orders_total = $orderData['items_total'];
+$orders_date = date("Y-m-d H:i:s");
+$orders_status = $orderData['orders_status'];
 
 
-$sql = "INSERT INTO orders (order_id, table_name, order_items, total_amount, order_date, order_status) VALUES ( '$orderID', '$tableName', '$orderItemsJson','$totalAmount', '$orderDate', '$orderStatus')";
+$sql = "INSERT INTO app_orders (orders_code, orders_table, orders_items, orders_total, orders_date, orders_status) VALUES ( '$orders_code', '$orders_table', '$orders_items','$orders_total', '$orders_date', '$orders_status')";
 if ($conn->query($sql) === TRUE) {
     echo json_encode(["status" => "success", "message" => "Order placed successfully"]);
 } else {

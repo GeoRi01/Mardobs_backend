@@ -1,9 +1,9 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
+$servername = "34.143.244.112";
+$username = "dobal";
+$password = "dobal2024";
 $dbname = "mardobs";
 
 // Create connection
@@ -14,7 +14,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM category_list";
+$sql = "SELECT * FROM app_categories";
 $result = $conn->query($sql);
 
 $categoryList = array();

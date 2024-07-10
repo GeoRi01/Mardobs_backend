@@ -1,41 +1,38 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-$servername = "localhost";
-$username = "root";
-$password = "";
+$servername = "34.143.244.112";
+$username = "dobal";
+$password = "dobal2024";
 $dbname = "mardobs";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get POST data
 $postData = json_decode(file_get_contents("php://input"), true);
-$email = $postData['email'];
+$username = $postData['username'];
 $password = $postData['password'];
 
 $response = array();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $sql = "SELECT id, email, username, password, type FROM users WHERE email = ? AND password = ?";
+    $sql = "SELECT accounts_id, accounts_name, accounts_username, accounts_password, accounts_type FROM app_accounts WHERE accounts_username = ? AND accounts_password = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $email, $password);
+    $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $user = array(
-            'id' => $row['id'],
-            'email' => $row['email'],
-            'username' => $row['username'],
-            'password' => $row['password'],
-            'type' => $row['type']
+            'accounts_id' => $row['accounts_id'],
+            'accounts_name' => $row['accounts_name'],
+            'accounts_username' => $row['accounts_username'],
+            'accounts_password' => $row['accounts_password'],
+            'accounts_type' => $row['accounts_type']
         );
 
         $response['status'] = 'success';
