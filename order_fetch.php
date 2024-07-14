@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM app_orders";
+$sql = "SELECT * FROM orders";
 $result = $conn->query($sql);
 
 $orders = array();

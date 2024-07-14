@@ -14,7 +14,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM app_categories";
+$sql = "SELECT * FROM category";
 $result = $conn->query($sql);
 
 $categoryList = array();

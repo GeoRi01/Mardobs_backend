@@ -19,7 +19,7 @@ $password = $postData['password'];
 $response = array();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $sql = "SELECT accounts_id, accounts_name, accounts_username, accounts_password, accounts_type FROM app_accounts WHERE accounts_username = ? AND accounts_password = ?";
+    $sql = "SELECT account_id, account_name, account_username, account_password, account_type, account_email FROM account WHERE account_username = ? AND account_password = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
@@ -28,11 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $user = array(
-            'accounts_id' => $row['accounts_id'],
-            'accounts_name' => $row['accounts_name'],
-            'accounts_username' => $row['accounts_username'],
-            'accounts_password' => $row['accounts_password'],
-            'accounts_type' => $row['accounts_type']
+            'account_id' => $row['account_id'],
+            'account_name' => $row['account_name'],
+            'account_username' => $row['account_username'],
+            'account_password' => $row['account_password'],
+            'account_type' => $row['account_type'],
+            'account_email' => $row['account_email']
         );
 
         $response['status'] = 'success';
