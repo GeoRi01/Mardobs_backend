@@ -6,6 +6,9 @@ $username = "dobal";
 $password = "dobal2024";
 $dbname = "mardobs";
 
+// Set the timezone
+date_default_timezone_set("Asia/Manila"); // Change this to your timezone
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -21,6 +24,10 @@ $new_items = $data['items'];
 $new_items_total = $data['items_total'];
 
 $response = array();
+
+// Generate a unique order code
+$orders_code = uniqid();
+$orders_date = date("Y-m-d H:i:s");
 
 // Check for existing order
 $sql = "SELECT * FROM orders WHERE orders_table = '$tables_name' AND orders_status != 'Completed'";
@@ -50,7 +57,7 @@ if ($result->num_rows > 0) {
 } else {
     // No existing order, insert new one
     $new_items_json = json_encode($new_items);
-    $insert_sql = "INSERT INTO orders (orders_table, orders_items, orders_total, orders_date, orders_status) VALUES ('$tables_name', '$new_items_json', $new_items_total, NOW(), 'Pending')";
+    $insert_sql = "INSERT INTO orders (orders_code, orders_table, orders_items, orders_total, orders_date, orders_status) VALUES ('$orders_code', '$tables_name', '$new_items_json', $new_items_total, '$orders_date', 'Pending')";
 
     if ($conn->query($insert_sql) === TRUE) {
         $response['status'] = 'success';
