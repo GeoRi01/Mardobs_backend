@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 
 $sql = "SELECT * FROM orders";
 $result = $conn->query($sql);
-
+    
 $orders = array();
 
 if ($result->num_rows > 0) {
