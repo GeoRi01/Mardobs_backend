@@ -45,7 +45,7 @@ if ($result->num_rows > 0) {
 
     $updated_items_json = json_encode($combined_items);
 
-    $update_sql = "UPDATE orders SET orders_items = '$updated_items_json', orders_total = $combined_items_total WHERE orders_id = {$existing_order['orders_id']}";
+    $update_sql = "UPDATE orders SET orders_items = '$updated_items_json', orders_total = $combined_items_total, orders_status = 'Pending' WHERE orders_id = {$existing_order['orders_id']}";
 
     if ($conn->query($update_sql) === TRUE) {
         $response['status'] = 'success';
