@@ -6,13 +6,10 @@ $username = "dobal";
 $password = "dobal2024";
 $dbname = "mardobs";
 
-// Set the timezone
-date_default_timezone_set("Asia/Manila"); // Change this to your timezone
+date_default_timezone_set("Asia/Manila"); 
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -25,21 +22,17 @@ $new_items_total = $data['items_total'];
 
 $response = array();
 
-// Generate a unique order code
 $orders_code = uniqid();
 $orders_date = date("Y-m-d H:i:s");
 
-// Check for existing order
 $sql = "SELECT * FROM orders WHERE orders_table = '$tables_name' AND orders_status != 'Completed'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    // Existing order found, update it
     $existing_order = $result->fetch_assoc();
     $existing_items = json_decode($existing_order['orders_items'], true);
     $existing_items_total = $existing_order['orders_total'];
 
-    // Combine old and new items
     $combined_items = array_merge($existing_items, $new_items);
     $combined_items_total = $existing_items_total + $new_items_total;
 
@@ -55,7 +48,6 @@ if ($result->num_rows > 0) {
         $response['message'] = 'Failed to update order';
     }
 } else {
-    // No existing order, insert new one
     $new_items_json = json_encode($new_items);
     $insert_sql = "INSERT INTO orders (orders_code, orders_table, orders_items, orders_total, orders_date, orders_status) VALUES ('$orders_code', '$tables_name', '$new_items_json', $new_items_total, '$orders_date', 'Pending')";
 
