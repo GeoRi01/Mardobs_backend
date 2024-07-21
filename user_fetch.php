@@ -19,27 +19,36 @@ $password = $postData['password'];
 $response = array();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $sql = "SELECT account_id, account_name, account_username, account_password, account_type, account_email FROM account WHERE account_username = ? AND account_password = ?";
+    // Prepare and execute the SQL query to get the hashed password
+    $sql = "SELECT account_id, account_name, account_username, account_password, account_type, account_email FROM account WHERE account_username = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $user = array(
-            'account_id' => $row['account_id'],
-            'account_name' => $row['account_name'],
-            'account_username' => $row['account_username'],
-            'account_password' => $row['account_password'],
-            'account_type' => $row['account_type'],
-            'account_email' => $row['account_email']
-        );
+        // Verify the password
+        if (password_verify($password, $row['account_password'])) {
+            // Password is correct, prepare user data
+            $user = array(
+                'account_id' => $row['account_id'],
+                'account_name' => $row['account_name'],
+                'account_username' => $row['account_username'],
+                'account_type' => $row['account_type'],
+                'account_email' => $row['account_email']
+            );
 
-        $response['status'] = 'success';
-        $response['message'] = 'Login successful';
-        $response['user'] = $user;
+            $response['status'] = 'success';
+            $response['message'] = 'Login successful';
+            $response['user'] = $user;
+        } else {
+            // Password is incorrect
+            $response['status'] = 'error';
+            $response['message'] = 'Invalid username or password';
+        }
     } else {
+        // No account found with that username
         $response['status'] = 'error';
         $response['message'] = 'Invalid username or password';
     }
