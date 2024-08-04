@@ -2,17 +2,7 @@
 header("Content-Type: application/json; charset=UTF-8");
 date_default_timezone_set('Asia/Manila');
 
-$servername = "mardobs-dobal.h.aivencloud.com";
-$port = "11535";
-$username = "avnadmin";
-$password = "AVNS_Hjm0TT6t3h_VzkzIKO-";
-$dbname = "mardobs";
-
-$conn = new mysqli($servername, $username, $password, $dbname, $port);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db_connection.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 

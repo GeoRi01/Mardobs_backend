@@ -1,18 +1,7 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
 
-$servername = "mardobs-dobal.h.aivencloud.com";
-$port = "11535";
-$username = "avnadmin";
-$password = "AVNS_Hjm0TT6t3h_VzkzIKO-";
-$dbname = "mardobs";
-
-$conn = new mysqli($servername, $username, $password, $dbname, $port);
-
-if ($conn->connect_error) {
-    echo json_encode(['status' => 'error', 'message' => 'Connection failed: ' . $conn->connect_error]);
-    exit;
-}
+include 'db_connection.php';
 
 $input = json_decode(file_get_contents("php://input"), true);
 
