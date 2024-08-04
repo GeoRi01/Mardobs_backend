@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM products";
+$sql = "SELECT * FROM products WHERE prod_status != 'Not Available' AND prod_stocks > 0";
 $result = $conn->query($sql);
 
 $foodList = array();
