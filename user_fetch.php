@@ -20,7 +20,6 @@ $password = $postData['password'];
 $response = array();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Prepare and execute the SQL query to get the hashed password
     $sql = "SELECT account_id, account_name, account_username, account_password, account_type, account_email FROM account WHERE account_username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
@@ -29,9 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        // Verify the password
         if (password_verify($password, $row['account_password'])) {
-            // Password is correct, prepare user data
             $user = array(
                 'account_id' => $row['account_id'],
                 'account_name' => $row['account_name'],
@@ -44,12 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $response['message'] = 'Login successful';
             $response['user'] = $user;
         } else {
-            // Password is incorrect
             $response['status'] = 'error';
             $response['message'] = 'Invalid username or password';
         }
     } else {
-        // No account found with that username
         $response['status'] = 'error';
         $response['message'] = 'Invalid username or password';
     }
